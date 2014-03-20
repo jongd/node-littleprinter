@@ -20,6 +20,11 @@ describe('using littleprinter', function() {
       littleprinter.edition(req, res);
       assert(littleprinter.handler.edition.withArgs('LDT', 'DC', req.query).calledOnce);
     });
+    it('should return 400 if handler says so', function() {
+      littleprinter.handler.edition.yields(400);
+      littleprinter.edition(req, res);
+      assert(res.send.withArgs(400).calledOnce);
+    });
     it('should return 500 if handler errors', function() {
       littleprinter.handler.edition.yields('ERROR');
       littleprinter.edition(req , res);
